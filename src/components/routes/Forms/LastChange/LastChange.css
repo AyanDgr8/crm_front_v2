@@ -1,0 +1,29 @@
+/* src/components/routes/Forms/LastChange/LastChange.css */
+
+.last-changes-container {
+    overflow-y: auto;
+    height: 70vh;
+    background-color: #EF6F53;
+    /* border-radius: 10px; */
+    margin: auto;
+    max-width: 100%;
+    text-align: left;
+    position: relative; 
+}
+
+.last-headi {
+    color: #364C63;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.05rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.changes-content{
+    font-size: 0.8em;
+    margin: 1rem;
+    color: white;
+
+}

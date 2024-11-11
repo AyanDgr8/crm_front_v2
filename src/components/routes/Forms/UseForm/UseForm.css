@@ -1,0 +1,149 @@
+/* src/components/routes/Forms/UseForm/UseForm.css */
+
+.use-last-container{
+    display: flex;
+    width: 100%;
+}
+
+.use-form-container {
+    overflow-y: auto;
+    background-color: #f4f4f4;
+    padding: 0.5rem;
+    margin: auto;
+    width: 300vw;
+    /* border-radius: 10px; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    height: 70vh;
+}
+
+.list_form_headiii {
+    color: #364C63;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.list_form_headiii:hover {
+    color: #EF6F53;
+  }
+
+.use-form-container form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem; 
+}
+
+.label-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 30%; 
+    margin-bottom: 0.25rem;
+}
+
+.label-input select{
+    font-size: 0.7rem;
+    width: 50%; 
+    background-color: white;
+    color: #323232;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.use-form-container label {
+    font-weight: bold;
+    margin: 0.35rem;
+    font-size: 0.85rem;
+    color: #364C63;
+    margin-right: 0.5rem;
+    text-align: left;
+    width: 35%; 
+}
+
+.use-form-container input {
+    flex: 1;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    transition: border-color 0.3s ease;
+    color: #323232;
+    width: 100%;
+}
+
+.use-form-container input:focus {
+    border-color: #1c2e40;
+    outline: none;
+}
+
+.sbt-use-btn {
+    background-color: #EF6F53;
+    color: white;
+    padding: 0.15rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10%;
+    position: absolute; 
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%); /* Correct centering with transform */
+
+}
+
+.sbt-use-btn:hover {
+    background-color: #df3319;
+}
+
+
+.comment {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.textarea-container {
+    display: flex;
+    width: 100%;
+}
+
+.comet {
+    width: 80%;
+    resize: vertical; 
+    flex: 1;
+    padding: 0.15rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    transition: border-color 0.3s ease;
+    color: #323232;
+}
+
+
+.add-field-btnnnn {
+    background-color: #EF6F53;
+    color: white;
+    padding: 0.15rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 10%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px; /* Positioning to the right side */
+}
+
+.add-field-btnn:hover {
+    background-color: #df3319;
+}

@@ -1,0 +1,119 @@
+/* src/components/routes/Sign/Register/Register.css */
+
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.register-headi {
+    color: #364C63;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.register-left {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.register-left form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.register-left label {
+    font-size: 1rem;
+    color: #364C63;
+    margin-bottom: 0.25rem;
+    /* text-align: left; */
+}
+
+.register-left input {
+    padding: 0.25rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    outline: none;
+}
+
+.register-left input:focus {
+    border-color: #EF6F53;
+}
+
+.register-left button {
+    background-color: #EF6F53;
+    color: white;
+    border: none;
+    width: 30%;
+    margin: auto;
+    margin-top: 1rem;
+    padding: 0.25rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-left button:hover {
+    background-color: #d15846;
+}
+
+.logis{
+    display: flex;
+    margin: auto;
+}
+
+.head2 {
+    color: #364C63;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+.login-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #EF6F53;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+
+
+.register-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-icon {
+    width: 80%;
+    max-width: 25rem;
+    border-radius: 5px;
+    margin-left: 30%;
+}

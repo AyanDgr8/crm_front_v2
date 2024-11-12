@@ -9,7 +9,6 @@ const Header = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate(); 
 
-    
     const handleSearch = () => {
         if (!searchQuery.trim()) {
             alert("Please enter a search term."); 
@@ -17,6 +16,7 @@ const Header = () => {
         }
 
         navigate(`/customers/search?query=${encodeURIComponent(searchQuery)}`);
+        setSearchQuery('');
     };
 
     const handleKeyDown = (e) => {

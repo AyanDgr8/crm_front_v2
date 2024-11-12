@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./UseForm.css";
 import LastChanges from "../LastChange/LastChange";
+// import ScheduleForm from "../ScheduleForm/ScheduleForm";
 
 const UseForm = () => {
     const location = useLocation();
@@ -36,6 +37,7 @@ const UseForm = () => {
         agent_name: '',
         gender: 'male',
         comment: '',
+        scheduled_at: '',
     });
 
     const [updatedData, setUpdatedData] = useState(formData);
@@ -231,7 +233,7 @@ const UseForm = () => {
                             { label: "Country:", name: "country" },
                             { label: "Disposition:", name: "disposition" },
                             { label: "Source:", name: "source" },
-                            { label: "Agent Name:", name: "agent_name" },
+                            { label: "User:", name: "agent_name", disabled: !isAdmin },
                         ].map(({ label, name, type = "text", disabled = false }) => (
                             <div className="label-input" key={name}>
                                 <label>{label}</label>
@@ -253,6 +255,20 @@ const UseForm = () => {
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
+                        </div>
+
+                        {/* <Schedule Call /> */}
+
+                        <div className="label-input">
+                            <label>Schedule Call:</label>
+                            <input
+                                type="datetime-local"
+                                id="scheduled_at"
+                                name="scheduled_at"
+                                value={formData.scheduled_at}
+                                onChange={handleInputChange}
+                                className="sche_input"
+                            />
                         </div>
 
                         {/* Comment Section */}

@@ -4,22 +4,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ListForm.css";
+import Popup from "../../Other/Popup/Popup";
 
 const ListForm = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
   const [currentPage, setCurrentPage] = useState(1);
-  const [customersPerPage] = useState(10); // Change this to 10 to display 10 customers per page
+  const [customersPerPage] = useState(10); // Display 10 customers per page
   const [user, setUser] = useState(null); // State to hold user info
   const [isAdmin, setIsAdmin] = useState(false); // State to track if user is an admin
-  // const [customFields, setCustomFields] = useState([]); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLastUpdatedCustomers = async () => {
       try {
-        const apiUrl = process.env.REACT_APP_API_URL; // Get the base URL from the environment variable
+        const apiUrl = process.env.REACT_APP_API_URL;
         const response = await axios.get(`${apiUrl}/customers`); 
         setCustomers(response.data);
       } catch (error) {
@@ -32,21 +32,16 @@ const ListForm = () => {
 
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token'); // or wherever you store your token
-        const apiUrl = process.env.REACT_APP_API_URL; // Get the base URL from the environment variable
-        const userResponse = await axios.get(`${apiUrl}/current-user`, { // Use the environment variable for the base URL
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const token = localStorage.getItem('token');
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const userResponse = await axios.get(`${apiUrl}/current-user`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
         setUser(userResponse.data);
 
         // Check if the user is an admin
         if (userResponse.data.role === 'Admin') {
-            setIsAdmin(true); // Set state to true if user is an admin
-            console.log("User is an admin.");
-        } else {
-            console.log("User is not an admin.");
+          setIsAdmin(true); // Set state to true if user is an admin
         }
       } catch (error) {
         setError('Failed to fetch user data.');
@@ -54,7 +49,7 @@ const ListForm = () => {
       }
     };
     fetchLastUpdatedCustomers();
-    fetchUser(); // Call fetchUser when the component mounts
+    fetchUser();
   }, []);
 
   // Function to format the last updated timestamp
@@ -66,11 +61,9 @@ const ListForm = () => {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false, // 24-hour format
+      hour12: false,
     };
-
-    const date = new Date(dateString);
-    return date.toLocaleString('en-GB', options); // Adjust locale if needed
+    return new Date(dateString).toLocaleString('en-GB', options);
   };
 
   // Get the current customers to display based on the page
@@ -83,7 +76,6 @@ const ListForm = () => {
 
   const handleEdit = (customer) => {
     navigate('/customers/phone/' + customer.phone_no_primary, { state: { customer } });
-    // navigate(`/customers/phone=${customer.phone_no_primary}`, { state: { customer } });
   };
 
   const handleAddField = () => {
@@ -99,6 +91,7 @@ const ListForm = () => {
 
   return (
     <div>
+      {/* <Popup /> */}
       <h2 className="list_form_headi">Customer Relationship Management</h2>
       <div className="list-container">
         {currentCustomers.length > 0 ? (
@@ -107,14 +100,14 @@ const ListForm = () => {
               <thead>
                 <tr className="customer-row">
                   <th>ID</th>
-                  <th>Name</th>
+                  <th>Customer Name</th>
                   <th>Company Name</th>
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Whatsapp</th>
-                  <th>Agent Name</th>
                   <th>Country</th>
                   <th>Disposition</th>
+                  <th>User Name</th>
                   <th>Last Updated</th>
                 </tr>
               </thead>
@@ -127,31 +120,16 @@ const ListForm = () => {
                     <td>{customer.email_id}</td>
                     <td>{customer.phone_no_primary}</td>
                     <td>{customer.whatsapp_num}</td>
-                    <td>{customer.agent_name}</td>
                     <td>{customer.country}</td>
                     <td>{customer.disposition}</td>
+                    <td>{customer.agent_name}</td>
                     <td>{formatDateTime(customer.last_updated)}</td>
-                    {/* <td>{customer.contact_type}</td> */}
-                    {/* <td>{new Date(customer.date_created).toLocaleDateString()}</td> */}
-                    {/* <td>{new Date(customer.date_of_birth).toLocaleDateString()}</td> */}
-                    {/* <td className="customer-add">{customer.address}</td> */}
-                    {/* <td>{customer.source}</td>
-                    <td>{customer.disposition}</td> */}
-                    {/* <td>
-                      <button
-                        onClick={() => handleEdit(customer)}
-                        className="edit-btnn"
-                        aria-label={`Edit ${customer.first_name} ${customer.last_name}`}
-                      >
-                        Edit
-                      </button>
-                    </td> */}
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {/* Check if the user is an admin before showing the button */}
+            {/* Add Field button only visible to admin */}
             {isAdmin && (  
               <button 
                 onClick={handleAddField} 
@@ -165,14 +143,13 @@ const ListForm = () => {
             {/* Pagination Controls */}
             <div className="pagination-container">
               <button 
-                  onClick={handleAddRecord} 
-                  className="add-record-btn"
-                  aria-label="Add new customer"
-                >
-                  Add Record 
+                onClick={handleAddRecord} 
+                className="add-record-btn"
+                aria-label="Add new customer"
+              >
+                Add Record 
               </button>
               <div className="pagination">
-                {/* Previous button */}
                 {currentPage > 1 && (
                   <button
                     onClick={() => paginate(currentPage - 1)}
@@ -183,7 +160,6 @@ const ListForm = () => {
                   </button>
                 )}
 
-                {/* Page numbers */}
                 {[...Array(Math.ceil(customers.length / customersPerPage)).keys()].map((number) => (
                   <button
                     key={number + 1}
@@ -195,7 +171,6 @@ const ListForm = () => {
                   </button>
                 ))}
 
-                {/* Next button */}
                 {currentPage < Math.ceil(customers.length / customersPerPage) && (
                   <button
                     onClick={() => paginate(currentPage + 1)}

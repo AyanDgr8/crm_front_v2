@@ -21,6 +21,15 @@ const UploadNew = () => {
     const [customerData, setCustomerData] = useState([]); 
     const navigate = useNavigate();
 
+    // Helper function to convert empty values to null
+    const convertEmptyToNull = (data) => {
+        return data.map(item => {
+            return Object.fromEntries(
+                Object.entries(item).map(([key, value]) => [key, value === "" ? null : value])
+            );
+        });
+    };
+
     // Handle file selection and parse headers
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -45,16 +54,7 @@ const UploadNew = () => {
         }
     };
 
-    // Helper function to convert empty values to null
-    const convertEmptyToNull = (data) => {
-        return data.map(item => {
-            return Object.fromEntries(
-                Object.entries(item).map(([key, value]) => [key, value === "" ? null : value])
-            );
-        });
-    };
-
-    // Parse CSV and set customer data
+    // Parse CSV headers
     const parseCSV = (data) => {
         Papa.parse(data, {
             header: true,
@@ -66,7 +66,7 @@ const UploadNew = () => {
         });
     };
 
-    // Parse Excel and set customer data
+    // Parse Excel headers
     const parseExcel = (data) => {
         const workbook = XLSX.read(data, { type: "binary" });
         const sheetName = workbook.SheetNames[0];
@@ -75,7 +75,6 @@ const UploadNew = () => {
         const modifiedData = convertEmptyToNull(worksheet);
         setCustomerData(modifiedData); // Set the customer data here
     };
-
 
     // Handle mapping selection change
     const handleMappingChange = (systemHeader, selectedFileHeader) => {
@@ -92,16 +91,6 @@ const UploadNew = () => {
         }));
     };
 
-    // Check if phone_no_primary is mapped
-    const isPhoneNoPrimaryMapped = () => {
-        return headerMapping["phone_no_primary"] !== undefined && headerMapping["phone_no_primary"] !== "";
-    };
-
-    // Function to check for all required headers in the uploaded file
-    const checkRequiredHeaders = () => {
-        return systemHeaders.every(header => fileHeaders.includes(header));
-    };
-
     // Function to get available options for the dropdown
     const getAvailableOptions = (systemHeader) => {
         const selectedHeaders = Object.values(headerMapping);
@@ -110,26 +99,10 @@ const UploadNew = () => {
 
     // Function to submit the mapped headers to the backend
     const handleSubmit = async () => {
-        if (!isPhoneNoPrimaryMapped()) {
-            setError("You must select a header for phone_no_primary.");
-            return;
-        }
-        if (!checkRequiredHeaders()) {
-            setError("Uploaded file does not contain all required headers.");
-            return;
-        }
+
         setError(""); // Clear any previous errors
 
         const apiUrl = process.env.REACT_APP_API_URL; 
-
-        // Log the data being sent to the server
-        const requestBody = {
-            headerMapping,
-            fileName: selectedFileName, // Send the file name if needed
-            customerData
-        };
-        console.log("Request Body:", JSON.stringify(requestBody, null, 2)); // Pretty print the request body
-
         try {
             const response = await fetch(`${apiUrl}/upload-customer-data`, {
                 method: 'POST',
@@ -137,23 +110,26 @@ const UploadNew = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify({
+                    headerMapping,
+                    fileName: selectedFileName, // Send the file name if needed
+                    customerData
+                })
             });
-        
+    
             if (response.ok) {
                 alert("Data uploaded successfully.");
                 navigate("/customers"); 
             } else {
-                const errorData = await response.json(); // Capture the response body for debugging
-                console.error("Response Error:", errorData); // Log the error details
-                alert("Failed to upload data: " + errorData.message);
+                const responseError = await response.json();
+                console.error("Response Error:", responseError);
+                alert("Failed to upload data.");
             }
         } catch (error) {
-            console.error("Error uploading data:", error); // Log the error stack
+            console.error("Error uploading data:", error);
             alert("Error uploading data.");
         }
     };
-
 
     return (
         <div className="file-upload-page">
@@ -189,7 +165,7 @@ const UploadNew = () => {
                                     {getAvailableOptions(systemHeader).map((fileHeader) => (
                                         <option key={fileHeader} value={fileHeader}>
                                             {fileHeader}
-                                        </option>
+                                         </option>
                                     ))}
                                 </select>
                             </div>

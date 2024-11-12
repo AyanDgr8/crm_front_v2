@@ -11,8 +11,8 @@ import Register from "../Sign/Register/Register";
 import Logout from "../Sign/Logout/Logout";
 import CustomForm from "./CustomForm/CustomForm";
 import CreateForm from "./CreateForm/CreateForm";
-import ViewForm from "./ViewForm/ViewForm";
 import UploadNew from "../Other/Header/UploadNew";
+import Reminder from "../Other/Reminder/Reminder";
 
 const ZForm = () => {
     return (
@@ -44,6 +44,9 @@ const ZForm = () => {
             
             {/* Uploading new file */}
             <Route path="/upload-customer-data" element={<UploadNew />} />
+
+            {/* Access call reminders */}
+            <Route path="/customers/reminders" element={<Reminder />} />
             
             {/* Register a new user */}
             <Route path="/register" element={<Register />} />
